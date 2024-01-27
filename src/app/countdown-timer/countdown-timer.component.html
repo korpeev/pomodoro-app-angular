@@ -1,9 +1,12 @@
 <div class="flex flex-col items-center">
-  <h1 *ngIf="isBreaking" class="animate-pulse text-3xl my-[10px]">breaking</h1>
+  <h1 *ngIf="isBreaking | async" class="animate-pulse text-3xl my-[10px]">breaking</h1>
   <div class="flex gap-1">
-    <strong>{{parsedTimer | async | date:'mm:ss'}}</strong>
+    <app-countdown-timer-circle-progress>
+      <strong>{{parsedTimer | async | date:'mm:ss'}}</strong>
+    </app-countdown-timer-circle-progress>
+
   </div>
-  <app-countdown-timer-controls [isBreaking]="isBreaking" (toggleBreakTime)="toggleBreaking()"/>
+  <app-countdown-timer-controls [isBreaking]="isBreaking" (toggleBreakTime)="toggleBreaking($event)"/>
   <audio #audioPlayer class="invisible">
     <source src="assets/mixkit-bell-gentle-alarm-notification-940.wav" type="audio/wav">
   </audio>

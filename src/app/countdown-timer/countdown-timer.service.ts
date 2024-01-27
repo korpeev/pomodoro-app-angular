@@ -12,17 +12,18 @@ import {
   providedIn: 'root',
 })
 export class CountdownTimerService {
-  private TIME_SECONDS = 1;
-  private TIME_START_MINUTES = 1;
-  private audioPlayer: ElementRef | undefined;
+  private TIME_SECONDS = 0;
+  private TIME_START_MINUTES = 10;
+  private audioPlayer?: ElementRef;
   private $timer = timer(0, 1000);
-  private $seconds = new BehaviorSubject(this.TIME_SECONDS);
-  private $timerDestroy = new Subject();
-  private $startMinute = new BehaviorSubject(this.TIME_START_MINUTES);
+  $seconds = new BehaviorSubject(this.TIME_SECONDS);
+  $timerDestroy = new Subject();
+  $startMinute = new BehaviorSubject(this.TIME_START_MINUTES);
   private $timerPaused = new BehaviorSubject(false);
   private $timerStarted = new BehaviorSubject(false);
+  $elapsedSeconds = new BehaviorSubject(0);
 
-  public setAudioPlayer(value: ElementRef | undefined) {
+  public setAudioPlayer(value?: ElementRef) {
     this.audioPlayer = value;
   }
 
@@ -50,10 +51,12 @@ export class CountdownTimerService {
     if (this.$timerStarted.value) return;
     this.$timerPaused.next(false);
     this.$timerStarted.next(true);
-    this.$timer.pipe(takeUntil(this.$timerDestroy)).subscribe(() => {
+    this.$timer.pipe(takeUntil(this.$timerDestroy)).subscribe((value) => {
+      this.$elapsedSeconds.next(value);
       const currentSecond = this.$seconds.value;
       const currentMinute = this.$startMinute.value;
       if (currentSecond === 0 && currentMinute === 0) {
+        this.$elapsedSeconds.next(0);
         this.audioPlayer?.nativeElement?.play();
         this.stopTimer();
         this.resetTimer();
@@ -61,7 +64,7 @@ export class CountdownTimerService {
       }
 
       if (currentSecond === 0) {
-        this.$seconds.next(2);
+        this.$seconds.next(59);
         this.$startMinute.next(currentMinute - 1);
       }
 
@@ -90,6 +93,7 @@ export class CountdownTimerService {
   }
 
   private resetTimer() {
+    this.$elapsedSeconds.next(0);
     this.$timerStarted.next(false);
     this.$timerPaused.next(false);
     this.$seconds.next(this.TIME_SECONDS);
