@@ -22,9 +22,8 @@ export class CountdownTimerCircleProgressComponent implements AfterViewInit {
       )
       .subscribe(([minute, second]) => {
         const parsedMinute = (minute === 0 ? 1 : minute * 60) + second;
-        const percent =
-          (this.countdownTimerService.$elapsedSeconds.value / parsedMinute) *
-          100;
+        const secondOffset = second === 0 ? 0 : 60 - second;
+        const percent = (secondOffset / parsedMinute) * 100;
         const offsetValue = this.dashOffset * ((100 - percent) / 100);
         this.innerCircle?.nativeElement?.setAttribute(
           'stroke-dashoffset',

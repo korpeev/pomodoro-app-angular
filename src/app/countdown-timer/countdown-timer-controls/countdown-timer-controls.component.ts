@@ -52,8 +52,9 @@ export class CountdownTimerControlsComponent implements OnInit {
 
   public onToggleBreaking() {
     this.toggleBreakTime.emit(!this.isBreaking.value);
+    this.stopTimer();
+    this.restartTimer();
     if (this.isBreaking.value) {
-      this.stopTimer();
       this.countdownService.setStartMinute(this.selectedBreakTime.value);
       this.countdownService.setSeconds(0);
     } else {
