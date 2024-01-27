@@ -1,0 +1,8 @@
+<div class="flex gap-2 items-center mt-[20px]">
+  <button (click)="startTimer()" class="border-2 border-white rounded py-1 px-3">Start</button>
+  <button (click)="stopTimer()" class="border-2 border-white rounded py-1 px-3">Stop</button>
+  <button (click)="restartTimer()" class="border-2 border-white rounded py-1 px-3">Restart</button>
+  <button (click)="onToggleBreaking()" class="border-2 border-white rounded py-1 px-3">{{
+    isBreaking ? 'Cancel break' : 'Take break'
+    }}</button>
+</div>

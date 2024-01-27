@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-tomato text-white font-montserrat;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url("./assets/fonts/Montserrat-Regular.ttf") format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url("./assets/fonts/Montserrat-Medium.ttf") format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url("./assets/fonts/Montserrat-SemiBold.ttf") format('opentype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url("./assets/fonts/Montserrat-Bold.ttf") format('opentype');
+  font-weight: 700;
+}
